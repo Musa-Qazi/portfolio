@@ -1,0 +1,116 @@
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  place-items: center;
+  position: relative;
+  opacity: 1;
+  height: auto;
+  width: var(--cWidth);
+  margin: auto;
+}
+.about-me {
+  padding: 50px 0px;
+  padding-bottom: 0;
+  width: 640px;
+  max-width: calc(100% - 15px);
+}
+.about-me h3 {
+  font-size: 25px;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-weight: 400;
+  color: var(--accentColor);
+}
+
+.about-availability {
+  align-items: center;
+  border: 1px solid rgba(167, 228, 184, 0.24);
+  border-radius: 999px;
+  color: #c8c2ce;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 9px;
+  margin-top: 6px;
+  max-width: 100%;
+  padding: 8px 12px;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.about-availability:hover {
+  border-color: rgba(167, 228, 184, 0.65);
+  color: #f3eff7;
+}
+
+.about-availability > span {
+  background: #a7e4b8;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(167, 228, 184, 0.55);
+  flex: 0 0 7px;
+  height: 7px;
+}
+
+.about-availability svg {
+  color: #a7e4b8;
+  flex: 0 0 auto;
+  font-size: 15px;
+}
+
+.about-me p {
+  font-size: 18px;
+  font-weight: 350;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+  color: #c8c2ce;
+}
+.about-me .about-lead {
+  color: #f3eff7;
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 500;
+  letter-spacing: -1.2px;
+  line-height: 1.12;
+  margin: 24px 0 18px;
+}
+
+@media only screen and (min-width: 600px) {
+  .about-section {
+    justify-content: center;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .about-me {
+    width: 640px;
+    max-width: calc(100% - 70px);
+    transform: translateY(0%);
+  }
+  .about-section {
+    opacity: 1;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .about-section {
+    width: var(--cWidth);
+    justify-content: right;
+    max-width: 1920px;
+    height: var(--vh);
+    padding: 0px;
+    opacity: 1;
+  }
+  .about-me {
+    padding: 0px;
+    width: 50%;
+  }
+  .about-me .about-lead {
+    font-size: clamp(34px, 3.6vw, 54px);
+    line-height: 1.08;
+  }
+  .about-me p.para {
+    font-size: clamp(16px, 1.15vw, 19px);
+    line-height: 1.75;
+  }
+}
+@media only screen and (min-width: 1950px) {
+  .about-me p.para {
+    font-size: 1.25rem;
+  }
+}

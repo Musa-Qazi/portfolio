@@ -6,6 +6,18 @@
   z-index: 99;
   left: 50%;
   transform: translateX(-50%);
+
+  /* smooth hide when footer is visible */
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 350ms ease, transform 350ms ease;
+}
+
+/* footer is in view — slide down and fade out */
+.icons-section.icons-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(16px);
 }
 
 /* ── social icons (left side) ─────────────────── */

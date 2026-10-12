@@ -7,15 +7,18 @@ import {
 import "./styles/SocialIcons.css";
 import { MdArrowOutward } from "react-icons/md";
 import { HiChatAlt2 } from "react-icons/hi";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { profile } from "../data/portfolio";
 import { handleInternalLink } from "./utils/navigation";
 
 const SocialIcons = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
     const cleanups: Array<() => void> = [];
 
+    /* ── magnetic social icons ── */
     social.querySelectorAll("span").forEach((item) => {
       const elem = item as HTMLElement;
       const link = elem.querySelector("a") as HTMLElement;
@@ -59,11 +62,34 @@ const SocialIcons = () => {
       });
     });
 
-    return () => cleanups.forEach((cleanup) => cleanup());
+    /* ── hide icons when footer is visible ── */
+    const section = sectionRef.current;
+    const footer = document.getElementById("footer");
+    let obs: IntersectionObserver | null = null;
+
+    if (footer && section) {
+      obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            section.classList.add("icons-hidden");
+          } else {
+            section.classList.remove("icons-hidden");
+          }
+        },
+        // trigger slightly before footer fully enters so it feels instant
+        { threshold: 0.05 }
+      );
+      obs.observe(footer);
+    }
+
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+      obs?.disconnect();
+    };
   }, []);
 
   return (
-    <div className="icons-section">
+    <div className="icons-section" ref={sectionRef}>
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
           <a href={profile.links.github} target="_blank" rel="noreferrer" aria-label="GitHub">

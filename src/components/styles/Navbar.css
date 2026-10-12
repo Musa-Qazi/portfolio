@@ -20,16 +20,49 @@
   padding: 0;
   list-style: none;
   column-gap: 40px;
-  row-gap: 8px;
+  row-gap: 6px;
   align-items: end;
+
+  /* hide-on-scroll transition */
+  transition: opacity 300ms ease, transform 300ms ease;
+  transform-origin: top right;
 }
+
+/* hide state — added by JS via ScrollTrigger */
+.header ul.nav-links-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px) scale(0.96);
+}
+
 .header ul li {
   margin-left: 0px;
   letter-spacing: 1px;
   color: #ccc;
   font-weight: 600;
   cursor: pointer;
+  /* numbered step marker for mobile */
+  counter-increment: nav-step;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+/* step number prefix on mobile */
+.header ul li::before {
+  content: "0" counter(nav-step);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.header ul {
+  counter-reset: nav-step;
+}
+
 .navbar-connect {
   position: absolute;
   display: none;
@@ -45,6 +78,7 @@
   font-size: 14px;
   letter-spacing: 0.2px;
 }
+
 @media only screen and (min-width: 500px) {
   .header {
     padding: 20px 0px;
@@ -53,6 +87,14 @@
     flex-direction: row;
     align-items: center;
     font-size: 14px;
+    row-gap: 0;
+  }
+  /* hide step numbers on desktop — links in a row */
+  .header ul li::before {
+    display: none;
+  }
+  .header ul li {
+    gap: 0;
   }
   .header ul li {
     color: #eae5ec;

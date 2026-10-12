@@ -282,11 +282,54 @@
     gap: 20px;
   }
 }
-@media only screen and (max-width: 1025px) {
+@media only screen and (max-width: 1024px) {
+  /* Remove pinned height — vertical scroll layout */
+  .work-section {
+    height: auto !important;
+  }
   .work-container {
     align-content: normal;
+    overflow: visible;
   }
   .work-flex {
+    flex-direction: column;
+    flex-wrap: nowrap;
     height: auto;
+    margin-left: 0;
+    padding-right: 0;
+    /* remove the infinite horizontal rule pseudo-elements */
+    overflow: visible;
+  }
+  .work-flex::before,
+  .work-flex::after {
+    display: none;
+  }
+  .work-box {
+    border-right: none;
+    border-bottom: 1px solid #2a2a2a;
+    flex-direction: column !important; /* override even-child reverse */
+    gap: 28px;
+    padding: 36px 0;
+    width: 100%;
+  }
+  .work-box:last-child {
+    border-bottom: none;
+  }
+  .work-title h3 {
+    font-size: 28px;
+    line-height: 1;
+  }
+  .work-section h2 {
+    font-size: 38px;
+    margin-top: 60px;
+    margin-bottom: 10px;
+  }
+  .work-info > p {
+    width: 100%;
+  }
+  /* top rule above first card */
+  .work-flex {
+    border-top: 1px solid #2a2a2a;
+    padding-top: 4px;
   }
 }

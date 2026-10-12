@@ -26,6 +26,17 @@ const Navbar = () => {
     activeSmoother.scrollTop(0);
     activeSmoother.paused(true);
 
+    // Hide nav links after scrolling past hero
+    const headerUl = document.querySelector(".header ul") as HTMLElement | null;
+    let navST: ScrollTrigger | null = null;
+    if (headerUl) {
+      navST = ScrollTrigger.create({
+        start: "120px top",
+        onEnter: () => headerUl.classList.add("nav-links-hidden"),
+        onLeaveBack: () => headerUl.classList.remove("nav-links-hidden"),
+      });
+    }
+
     const links = document.querySelectorAll(".header ul a");
     const linkHandlers = new Map<HTMLAnchorElement, (event: MouseEvent) => void>();
     links.forEach((elem) => {
@@ -40,6 +51,7 @@ const Navbar = () => {
       element.addEventListener("click", handleClick);
       linkHandlers.set(element, handleClick);
     });
+
     const handleResize = () => {
       ScrollSmoother.refresh(true);
     };
@@ -50,10 +62,12 @@ const Navbar = () => {
         element.removeEventListener("click", handler)
       );
       window.removeEventListener("resize", handleResize);
+      navST?.kill();
       activeSmoother.kill();
       if (smoother === activeSmoother) setSmoother(undefined);
     };
   }, []);
+
   return (
     <>
       <div className="header">

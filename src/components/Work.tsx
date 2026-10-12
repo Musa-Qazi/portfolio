@@ -18,6 +18,9 @@ const Work = () => {
     let animationFrame = 0;
     let cancelled = false;
 
+    // Mobile: skip GSAP horizontal scroll entirely — CSS handles vertical stack
+    if (window.innerWidth <= 1024) return;
+
     const createScrollAnimation = () => {
       if (cancelled) return;
       const section = sectionRef.current;

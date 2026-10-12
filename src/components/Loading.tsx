@@ -120,16 +120,25 @@ const Loading = ({ percent }: { percent: number }) => {
             <p className="perf-banner-title">LOW PERFORMANCE DETECTED</p>
             <p className="perf-banner-sub">
               This site runs a 3D scene and may be demanding on your device or
-              connection. Some effects could feel sluggish.
+              connection. The lite version loads instantly with no heavy graphics.
             </p>
           </div>
-          <button
-            className="perf-banner-dismiss"
-            onClick={() => setShowBanner(false)}
-            aria-label="Dismiss"
-          >
-            GOT IT
-          </button>
+          <div className="perf-banner-actions">
+            <a
+              className="perf-banner-switch"
+              href="/lite"
+              aria-label="Switch to lite version"
+            >
+              SWITCH TO LITE
+            </a>
+            <button
+              className="perf-banner-dismiss"
+              onClick={() => setShowBanner(false)}
+              aria-label="Dismiss"
+            >
+              CONTINUE ANYWAY
+            </button>
+          </div>
         </div>
       )}
     </>

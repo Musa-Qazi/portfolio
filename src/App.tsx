@@ -4,6 +4,7 @@ import "./App.css";
 const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
 const ContactPage = lazy(() => import("./components/ContactPage"));
+const LitePage = lazy(() => import("./components/LitePage"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
 const App = () => {
@@ -15,10 +16,20 @@ const App = () => {
     return () => window.removeEventListener("popstate", updatePath);
   }, []);
 
-  if (pathname.replace(/\/$/, "") === "/contact") {
+  const clean = pathname.replace(/\/$/, "");
+
+  if (clean === "/contact") {
     return (
       <Suspense fallback={null}>
         <ContactPage />
+      </Suspense>
+    );
+  }
+
+  if (clean === "/lite") {
+    return (
+      <Suspense fallback={null}>
+        <LitePage />
       </Suspense>
     );
   }

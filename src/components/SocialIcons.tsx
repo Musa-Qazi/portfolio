@@ -10,6 +10,10 @@ import { HiChatAlt2 } from "react-icons/hi";
 import { useEffect, useRef } from "react";
 import { profile } from "../data/portfolio";
 import { handleInternalLink } from "./utils/navigation";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SocialIcons = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -62,29 +66,35 @@ const SocialIcons = () => {
       });
     });
 
-    /* ── hide icons when footer is visible ── */
+    /* ── hide icons when footer enters view (via ScrollTrigger, works with ScrollSmoother) ── */
     const section = sectionRef.current;
     const footer = document.getElementById("footer");
-    let obs: IntersectionObserver | null = null;
+    let st: ScrollTrigger | null = null;
+    let stFrame = 0;
+    let stCancelled = false;
 
-    if (footer && section) {
-      obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            section.classList.add("icons-hidden");
-          } else {
-            section.classList.remove("icons-hidden");
-          }
-        },
-        // trigger slightly before footer fully enters so it feels instant
-        { threshold: 0.05 }
-      );
-      obs.observe(footer);
-    }
+    const setupTrigger = () => {
+      if (stCancelled || !footer || !section) return;
+      // Wait until ScrollSmoother has registered its ScrollTrigger proxy
+      if (ScrollTrigger.getAll().length === 0) {
+        stFrame = requestAnimationFrame(setupTrigger);
+        return;
+      }
+      st = ScrollTrigger.create({
+        trigger: footer,
+        start: "top 98%",   // footer top reaches 98% of viewport height
+        onEnter:     () => section.classList.add("icons-hidden"),
+        onLeaveBack: () => section.classList.remove("icons-hidden"),
+      });
+    };
+
+    stFrame = requestAnimationFrame(setupTrigger);
 
     return () => {
+      stCancelled = true;
+      cancelAnimationFrame(stFrame);
+      st?.kill();
       cleanups.forEach((cleanup) => cleanup());
-      obs?.disconnect();
     };
   }, []);
 

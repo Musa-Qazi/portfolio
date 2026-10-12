@@ -11,9 +11,6 @@ import { useEffect, useRef } from "react";
 import { profile } from "../data/portfolio";
 import { handleInternalLink } from "./utils/navigation";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const SocialIcons = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -66,34 +63,26 @@ const SocialIcons = () => {
       });
     });
 
-    /* ── hide icons when footer enters view (via ScrollTrigger, works with ScrollSmoother) ── */
-    const section = sectionRef.current;
+    /* ── hide icons when footer is on-screen ──
+       Uses gsap.ticker so it works with ScrollSmoother's CSS-transform-based scroll.
+       getBoundingClientRect() always returns the real rendered position. */
     const footer = document.getElementById("footer");
-    let st: ScrollTrigger | null = null;
-    let stFrame = 0;
-    let stCancelled = false;
+    const section = sectionRef.current;
 
-    const setupTrigger = () => {
-      if (stCancelled || !footer || !section) return;
-      // Wait until ScrollSmoother has registered its ScrollTrigger proxy
-      if (ScrollTrigger.getAll().length === 0) {
-        stFrame = requestAnimationFrame(setupTrigger);
-        return;
+    const checkFooter = () => {
+      if (!footer || !section) return;
+      const top = footer.getBoundingClientRect().top;
+      if (top < window.innerHeight) {
+        section.classList.add("icons-hidden");
+      } else {
+        section.classList.remove("icons-hidden");
       }
-      st = ScrollTrigger.create({
-        trigger: footer,
-        start: "top 98%",   // footer top reaches 98% of viewport height
-        onEnter:     () => section.classList.add("icons-hidden"),
-        onLeaveBack: () => section.classList.remove("icons-hidden"),
-      });
     };
 
-    stFrame = requestAnimationFrame(setupTrigger);
+    gsap.ticker.add(checkFooter);
 
     return () => {
-      stCancelled = true;
-      cancelAnimationFrame(stFrame);
-      st?.kill();
+      gsap.ticker.remove(checkFooter);
       cleanups.forEach((cleanup) => cleanup());
     };
   }, []);

@@ -27,13 +27,16 @@ const Loading = ({ percent }: { percent: number }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
+  const [showLiteHint, setShowLiteHint] = useState(false);
 
   useEffect(() => {
     // Show banner only when low performance is detected, after a short settle delay
     const t = setTimeout(() => {
       if (isLowPerformance()) setShowBanner(true);
     }, 800);
-    return () => clearTimeout(t);
+    // Always show lite hint after 2s — subtle, bottom-left
+    const h = setTimeout(() => setShowLiteHint(true), 2000);
+    return () => { clearTimeout(t); clearTimeout(h); };
   }, []);
 
   if (percent >= 100) {
@@ -140,6 +143,15 @@ const Loading = ({ percent }: { percent: number }) => {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Subtle lite-version hint — bottom-left, fades in after 2s, hides on load */}
+      {showLiteHint && !clicked && (
+        <a href="/lite" className="loader-lite-hint" aria-label="Switch to lite version">
+          <span className="loader-lite-dot" aria-hidden="true" />
+          prefer a lighter experience
+          <span className="loader-lite-arrow" aria-hidden="true">↗</span>
+        </a>
       )}
     </>
   );

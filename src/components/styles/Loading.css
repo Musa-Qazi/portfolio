@@ -361,3 +361,92 @@
     font-size: 18px;
   }
 }
+
+/* ── performance banner ────────────────────────── */
+@keyframes perf-slide-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.perf-banner {
+  align-items: center;
+  animation: perf-slide-up 500ms cubic-bezier(0.34, 1.1, 0.64, 1) both;
+  background: rgba(10, 8, 14, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  bottom: 32px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+  box-sizing: border-box;
+  color: #c8c1d2;
+  display: flex;
+  gap: 28px;
+  justify-content: space-between;
+  left: 50%;
+  max-width: 560px;
+  padding: 20px 24px;
+  position: fixed;
+  transform: translateX(-50%);
+  width: calc(100vw - 48px);
+  z-index: 9999999999;
+}
+
+.perf-banner-body {
+  flex: 1;
+}
+
+.perf-banner-title {
+  color: #f0ecf5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.perf-banner-sub {
+  color: #7e7688;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.perf-banner-dismiss {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  color: #d6d0de;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 10px 18px;
+  text-transform: uppercase;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  white-space: nowrap;
+}
+
+.perf-banner-dismiss:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+@media (max-width: 520px) {
+  .perf-banner {
+    align-items: flex-start;
+    bottom: 20px;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 18px;
+    width: calc(100vw - 32px);
+  }
+  .perf-banner-dismiss {
+    align-self: flex-start;
+  }
+}
+/* ─────────────────────────────────────────────── */

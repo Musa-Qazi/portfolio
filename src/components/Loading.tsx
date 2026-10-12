@@ -5,11 +5,36 @@ import { profile } from "../data/portfolio";
 
 import Marquee from "react-fast-marquee";
 
+// Detect low-performance conditions
+function isLowPerformance(): boolean {
+  const nav = navigator as Navigator & {
+    connection?: { effectiveType?: string; saveData?: boolean; downlink?: number };
+    deviceMemory?: number;
+    hardwareConcurrency?: number;
+  };
+  const conn = nav.connection;
+  if (conn?.saveData) return true;
+  if (conn?.effectiveType && ["slow-2g", "2g", "3g"].includes(conn.effectiveType)) return true;
+  if (conn?.downlink !== undefined && conn.downlink < 1.5) return true;
+  if (nav.deviceMemory !== undefined && nav.deviceMemory < 2) return true;
+  if (nav.hardwareConcurrency !== undefined && nav.hardwareConcurrency < 4) return true;
+  return false;
+}
+
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
   const [loaded, setLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    // Show banner only when low performance is detected, after a short settle delay
+    const t = setTimeout(() => {
+      if (isLowPerformance()) setShowBanner(true);
+    }, 800);
+    return () => clearTimeout(t);
+  }, []);
 
   if (percent >= 100) {
     setTimeout(() => {
@@ -87,6 +112,26 @@ const Loading = ({ percent }: { percent: number }) => {
           </div>
         </div>
       </div>
+
+      {/* Low-performance banner */}
+      {showBanner && (
+        <div className="perf-banner" role="alert" aria-live="polite">
+          <div className="perf-banner-body">
+            <p className="perf-banner-title">LOW PERFORMANCE DETECTED</p>
+            <p className="perf-banner-sub">
+              This site runs a 3D scene and may be demanding on your device or
+              connection. Some effects could feel sluggish.
+            </p>
+          </div>
+          <button
+            className="perf-banner-dismiss"
+            onClick={() => setShowBanner(false)}
+            aria-label="Dismiss"
+          >
+            GOT IT
+          </button>
+        </div>
+      )}
     </>
   );
 };

@@ -5,9 +5,9 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 import "./styles/SocialIcons.css";
-import { TbNotes } from "react-icons/tb";
+import { MdArrowOutward } from "react-icons/md";
+import { HiChatAlt2 } from "react-icons/hi";
 import { useEffect } from "react";
-import HoverLinks from "./HoverLinks";
 import { profile } from "../data/portfolio";
 import { handleInternalLink } from "./utils/navigation";
 
@@ -32,17 +32,14 @@ const SocialIcons = () => {
         if (!active) return;
         currentX += (mouseX - currentX) * 0.1;
         currentY += (mouseY - currentY) * 0.1;
-
         link.style.setProperty("--siLeft", `${currentX}px`);
         link.style.setProperty("--siTop", `${currentY}px`);
-
         frameId = requestAnimationFrame(updatePosition);
       };
 
       const onMouseMove = (e: MouseEvent) => {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         if (x < 40 && x > 10 && y < 40 && y > 5) {
           mouseX = x;
           mouseY = y;
@@ -53,7 +50,6 @@ const SocialIcons = () => {
       };
 
       document.addEventListener("mousemove", onMouseMove);
-
       updatePosition();
 
       cleanups.push(() => {
@@ -85,15 +81,25 @@ const SocialIcons = () => {
           </a>
         </span>
         <span>
-          <a href={profile.links.website} target="_blank" rel="noreferrer" aria-label="Devit Technologies">
+          <a href={profile.links.website} target="_blank" rel="noreferrer" aria-label="WeDevit Technologies">
             <FaGlobe />
           </a>
         </span>
       </div>
-      <a className="resume-button" href="/contact" onClick={handleInternalLink}>
-        <HoverLinks text="CONTACT" />
-        <span>
-          <TbNotes />
+
+      {/* Floating neon CTA — chatbot-style */}
+      <a
+        className="contact-cta"
+        href="/contact"
+        onClick={handleInternalLink}
+        data-cursor="disable"
+        aria-label="Contact"
+      >
+        <span className="cta-label">
+          LET'S TALK <MdArrowOutward />
+        </span>
+        <span className="cta-icon" aria-hidden="true">
+          <HiChatAlt2 />
         </span>
       </a>
     </div>

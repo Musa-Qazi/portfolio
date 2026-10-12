@@ -4,7 +4,7 @@ export const profile = {
   roles: ["Full-Stack Developer", "Freelancer", "DevOps", "Solopreneur"],
   availability: "Open to project collaborations, client work, and company opportunities",
   about:
-    "I’m a full-stack developer, DevOps practitioner, and solopreneur. I’ve founded a home-printing platform, guided early-stage founders, and now lead Devit Technologies, where I help teams apply AI to their workflows.",
+    "I'm a full-stack developer, DevOps practitioner, and solopreneur. I've founded a home-printing platform, guided early-stage founders, and now lead WeDevit Technologies, where I help teams apply AI to their workflows.",
   links: {
     linkedin: "https://www.linkedin.com/in/qazi-musa/",
     x: "https://x.com/Qazi__Musa",
@@ -16,8 +16,8 @@ export const profile = {
 
 export const experiences = [
   {
-    role: "CEO",
-    organization: "Devit Technologies",
+    role: "CTO",
+    organization: "WeDevit Technologies",
     year: "NOW",
     description:
       "Leading a consulting firm that brings AI into business workflows, with a focus on practical solutions and measurable real-world impact.",
